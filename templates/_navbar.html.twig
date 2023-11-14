@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg bg-body sticky-top me-3 ms-2">
+	<div class="container-fluid">
+		<a class="navbar-brand p-0" href="{{ path('home') }}">
+			<img src="{{ asset('img/main_logo.png') }}" width="45" height="34" class="d-inline-block align-top" alt="">
+			Rate Me
+		</a>
+
+		<div class="collapse navbar-collapse" id="navbarText">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item nav-item-gradient {% if app.request.attributes.get('_route') == " home" %} nav-item-gradient-active {% endif %}">
+					<a class="nav-link fs-6" aria-current="page" href="{{ path('home') }}">Accueil</a>
+				</li>
+				<li class="nav-item nav-item-gradient {% if app.request.attributes.get('_route') == " profiles" %} nav-item-gradient-active {% endif %}">
+					<a class="nav-link fs-6 text-ease" href="{{ path('profiles') }}">Profils</a>
+				</li>
+			</ul>
+			<span class="navbar-text">
+				<button type="button" class="btn btn-outline-dark rounded-pill btn-sm" id="change-mode-color">
+					<i class="bi bi-moon-stars" id="icon-change-mode-color"></i>
+				</button>
+				{% if app.user %}
+					<div class="border-button-gradient rounded-pill">
+						<a href="{{ path('app_account', {'pseudo': app.user.pseudo}) }}" class="btn btn-sm color-white border-0 rounded-pill button-gradient">Mon compte</a>
+					</div>
+				{% else %}
+					<input type="submit" class="btn btn-outline-dark btn-sm rounded-pill" href="{{ path('app_login') }}" value="Connexion"/>
+					<input type="submit" href="{{ path('app_register') }}" class="btn btn-dark btn-sm rounded-pill" value="Inscription"/>
+				{% endif %}
+			</span>
+		</div>
+	</div>
+</nav>

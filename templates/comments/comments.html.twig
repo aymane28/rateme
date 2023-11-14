@@ -1,0 +1,41 @@
+{% for review in user.reviews %}
+	<div class="card shadow-sm task-box rounded-3 mt-3">
+		<div class="card-body">
+			<div class="row align-items-center">
+				<div class="col-auto">
+					<div class="border-img">
+						<img src="{{ asset('img/avatar_indifferent.png') }}" class="rounded-circle bg-light" width="40"/>
+					</div>
+				</div>
+				<div class="col p-0 d-flex align-items-center">
+					<div class="ml-2">
+						{% for reviewBy in review.getReviewBy() %}
+							<h6>@{{ reviewBy.pseudo }}</h6>
+							<a
+								href="{{ path('profile_details', {'pseudo': reviewBy.pseudo}) }}">
+								{# Faites quelque chose avec chaque commentaire, par exemple : #}
+								<small>Voir ce profil</small>
+							</a>
+						{% endfor %}
+
+					</div>
+				</div>
+				<div class="col p-0 d-flex align-items-center">
+					<div class="ml-2">
+						<small>
+							<i class="bi bi-calendar4-week"></i>
+							{{ review.getReviewAt()|date('j F Y') }}</small>
+					</div>
+				</div>
+				<div class="col-auto p-0 d-flex align-items-center me-2">
+					<div class="ml-2">
+						<button class="btn btn-outline-dark rounded-pill btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
+							<i class="bi bi-chat-text"></i>
+							Voir les commentaires
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endfor %}

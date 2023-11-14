@@ -1,0 +1,157 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rate Me | Profils
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+		<div class="row d-flex align-items-center justify-content-between">
+			<div class="col">
+				<h5>Découverez nos profils</h5>
+			</div>
+			<div class="col-4">
+				<div class="input-group rounded">
+					<input type="search" class="form-control rounded-pill me-2" placeholder="Recherche par pseudo" aria-label="Search" aria-describedby="search-addon"/>
+					<div class="border-button-gradient rounded-pill">
+						<button class="btn color-white border-0 rounded-pill button-gradient">
+							<i class="bi bi-search"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="my-3 d-flex align-items-center flex-row gap-2">
+			<button type="button" class="btn rounded-pill filter-button filter-button-light">Les mieux notés</button>
+			<button type="button" class="btn rounded-pill filter-button filter-button-light">Les plus commentés</button>
+			<button type="button" class="btn rounded-pill filter-button filter-button-light">Favoris</button>
+		</div>
+		<div class="row gx-lg-7 row-cols-md-4 row-cols-xl-4">
+			{% for user in users %}
+				<div class="col-md-3 mb-5">
+					<div class="card p-4">
+						<div class="d-flex justify-content-between align-items-center mb-3">
+							<div class="heading d-flex align-items-center">
+								<h6>@{{ user.pseudo }}</h6>
+							</div>
+							<button class="btn btn-outline-dark rounded-pill btn-sm icon-saved-washlist" id="myBtn" onclick="toggleBookmark(this)" title="Favorie">
+								<i class="bi bi-bookmark"></i>
+							</button>
+						</div>
+						<div class="toast position-fixed fixed-bottom bottom-0 start-50 translate-middle-x m-5" id="myToast">
+							<div class="d-flex">
+								<div class="toast-body">
+									<i class="bi bi-bookmark-fill background-color-gradient me-2"></i>
+									Profil ajouté à vos favoris
+								</div>
+								<a class="m-auto float-right" href="">Voir</a>
+							</div>
+						</div>
+
+						<div class="second row mt-2">
+							<div class="col-auto">
+								<div class="border-img">
+									{% if user.gender.name == 'Man' %}
+										<img src="{{ asset('img/avatar_man.png') }}" class="rounded-circle bg-light" width="60"/>
+									{% elseif user.gender.name == 'Woman' %}
+										<img src="{{ asset('img/avatar_woman.png') }}" class="rounded-circle bg-light" width="60"/>
+									{% elseif user.gender.name == 'Indifferent' %}
+										<img src="{{ asset('img/avatar_indifferent.png') }}" class="rounded-circle bg-light" width="60"/>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-auto p-0 d-flex align-items-center">
+								<div class="ml-2">
+									{% if user.reviews is not empty %}
+										<small class="d-inline-flex align-items-center px-2 py-1 fw-semibold border border-opacity-10 rounded-2">
+											{{ user.reviews.first.note }}/10
+										</small>
+									{% else %}
+										<small class="d-inline-flex align-items-center px-2 py-1 fw-semibold border border-opacity-10 rounded-2">
+											Pas encore noté
+										</small>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+
+						<hr class="line-color">
+
+						<div class="my-2">
+							<h6>{{ user.reviews|length }}
+								commentaires</h6>
+						</div>
+
+						<div>
+							{% set hasInstagram = false %}
+							{% set hasLinkedin = false %}
+							{% set hasFacebook = false %}
+
+							{% if user.socialProfiles is not empty %}
+								{% for socialProfile in user.socialProfiles %}
+									{% if socialProfile.name == "Instagram" and not hasInstagram %}
+										<span>
+											<i class="bi bi-instagram"></i>
+										</span>
+										{% set hasInstagram = true %}
+									{% endif %}
+									{% if socialProfile.name == "Linkedin" and not hasLinkedin %}
+										<span>
+											<i class="bi bi-linkedin"></i>
+										</span>
+										{% set hasLinkedin = true %}
+									{% endif %}
+									{% if socialProfile.name == "Facebook" and not hasFacebook %}
+										<span>
+											<i class="bi bi-facebook"></i>
+										</span>
+										{% set hasFacebook = true %}
+									{% endif %}
+								{% endfor %}
+							{% else %}
+								<small>
+									Aucun réseau
+								</small>
+							{% endif %}
+						</div>
+
+						<div class="d-grid mt-4">
+							<a class="btn btn-dark fw-bolder rounded-pill" href="{{ path('profile_details', {'pseudo': user.pseudo}) }}">
+								<i class="bi bi-pen"></i>
+								Noter
+							</a>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		<nav aria-label="Page navigation example">
+			<ul class="pagination justify-content-center mb-5">
+				<li class="page-item">
+					<a class="page-link" href="#" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				<li class="page-item">
+					<a class="page-link" href="#">1</a>
+				</li>
+				<li class="page-item">
+					<a class="page-link" href="#">2</a>
+				</li>
+				<li class="page-item">
+					<a class="page-link" href="#">3</a>
+				</li>
+				<li class="page-item">
+					<a class="page-link" href="#" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/edit.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rate Me | Inscription
+{% endblock %}
+
+{% block body %}
+<div class="container mb-3 mt-5">
+	<div class="row">
+		<div class="col">
+			<div class="d-flex justify-content-between">
+				<a class="text-dark text-decoration-none text-color-gradient" href="{{ path('profiles') }}">
+					<h6 class="text-color-gradient">
+						<i class="bi bi-arrow-left"></i>
+						Revenir à la liste des profils<h6></a>
+						<a class="h6 text-dark text-decoration-none" href="{{ path('app_login') }}">Déjà inscrit ?</a>
+					</div>
+				</div>
+			</div>
+			<div class="row d-flex text-center justify-content-center align-items-center h-100 mb-2">
+				<div class="col col-md-9 col-lg-7 col-xl-4">
+					<p>
+						<small>Prêt à faire partie de la communauté qui redéfinit la connectivité sociale? Rejoignez-nous maintenant! Créez votre compte pour exposer vos réseaux, recevoir des évaluations honnêtes et vivre une expérience sociale inédite. Votre aventure digitale commence ici.</small>
+					</p>
+				</div>
+			</div>
+
+			<div class="row d-flex justify-content-center align-items-center h-100">
+				<div class="col col-md-9 col-lg-7 col-xl-4">
+					{% for flash_error in app.flashes('verify_email_error') %}
+						<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+					{% endfor %}
+					{{ form_start(registrationForm) }}
+					<div class="form-outline mb-4">
+						{{ form_row(registrationForm.pseudo, {
+						"label": "Pseudo*",
+						'help': 'Avec votre pseudo, forgez votre identité digitale unique et soyez reconnu sur notre plateforme!',
+						'help_attr': {
+							'class': 'text-secondary small'
+						},
+						"label_attr": {
+                            "class": "mb-2"
+                                                },
+                		'attr': {
+							'class': 'form-control',
+							'required': true
+						}
+                }) }}
+					</div>
+					<div class="form-outline mb-4">
+						{{ form_row(registrationForm.email, {
+								"label": "Email*",
+						"label_attr": {
+                            "class": "mb-2"
+                                                },
+                    'attr': {
+                        'class': 'form-control',
+                        'required': true
+                    }
+                }) }}
+					</div>
+					<div class="form-outline mb-4">
+						{{ form_row(registrationForm.plainPassword, {
+								"label": "Mot de passe*",
+						"label_attr": {
+                            "class": "mb-2"
+                                                },
+                    'attr': {
+                        'class': 'form-control',
+                        'required': true
+                    }
+                }) }}
+					</div>
+					<div class="form-check mb-4">
+						{{ form_widget(registrationForm.agreeTerms) }}
+						{{ form_label(registrationForm.agreeTerms, 'J\'accepte les termes et conditions', {'label_attr': {'class': 'form-check-label'}}) }}
+            </div>
+					<div class="d-grid ">
+						<button type="submit" class="btn btn-dark rounded-pill btn-block mb-4">Inscription</button>
+					</div>
+					{{ form_end(registrationForm) }}
+				</div>
+			</div>
+</div></div>{% endblock %}

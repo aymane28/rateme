@@ -1,0 +1,174 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rate Me | Mon compte
+{% endblock %}
+
+
+{% block body %}
+	<div class="container mt-5">
+		<div class="mb-5">
+			<h5>Mon compte</h5>
+		</div>
+		<div class="toast position-fixed fixed-bottom bottom-0 start-50 translate-middle-x m-5 text-bg-dark" id="myToast">
+			<div class="d-flex">
+				<div class="toast-body color">
+					<i class="bi bi-bookmark-fill background-color-gradient me-2"></i>
+					Profil ajouté à vos favoris
+				</div>
+				<a class="m-auto text-white float-right" href="">Voir</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 mb-5">
+				<div class="card p-4">
+					<div class="d-flex justify-content-between align-items-center mb-3">
+						<div class="heading d-flex align-items-center">
+							<h6>@{{ app.user.pseudo }}</h6>
+						</div>
+						<div class="d-flex flex-row gap-2">
+							<button class="btn btn-outline-dark rounded-pill btn-sm" id="myBtn">
+								Editer le profil
+							</button>
+						</div>
+					</div>
+
+					<div class="second row mt-2">
+						<div class="col-auto">
+							<div class="border-img">
+								{% if app.user.gender.name == 'Man' %}
+									<img src="{{ asset('img/avatar_man.png') }}" class="rounded-circle bg-light" width="60"/>
+								{% elseif app.user.gender.name == 'Woman' %}
+									<img src="{{ asset('img/avatar_woman.png') }}" class="rounded-circle bg-light" width="60"/>
+								{% elseif app.user.gender.name == 'Indifferent' %}
+									<img src="{{ asset('img/avatar_indifferent.png') }}" class="rounded-circle bg-light" width="60"/>
+								{% endif %}
+							</div>
+						</div>
+						<div class="col-auto p-0 d-flex align-items-center">
+							<div class="ml-2">
+								{% if app.user.reviews is not empty %}
+									<small class="d-inline-flex align-items-center px-2 py-1 fw-semibold text-dark border border-dark border-opacity-10 rounded-2">
+										{{ app.user.reviews.first.note }}/10
+									</small>
+								{% else %}
+									<small class="d-inline-flex align-items-center px-2 py-1 fw-semibold text-dark border border-dark border-opacity-10 rounded-2">
+										Pas encore noté
+									</small>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+
+					<hr class="line-color">
+
+					<div class="my-2">
+						<h6>{{ app.user.reviews|length }}
+							commentaires</h6>
+					</div>
+
+					<div>
+						{% set hasInstagram = false %}
+						{% set hasLinkedin = false %}
+						{% set hasFacebook = false %}
+
+						{% if app.user.socialProfiles is not empty %}
+							{% for socialProfile in app.user.socialProfiles %}
+								{% if socialProfile.name == "Instagram" and not hasInstagram %}
+									<span>
+										<i class="bi bi-instagram"></i>
+									</span>
+									{% set hasInstagram = true %}
+								{% endif %}
+								{% if socialProfile.name == "Linkedin" and not hasLinkedin %}
+									<span>
+										<i class="bi bi-linkedin"></i>
+									</span>
+									{% set hasLinkedin = true %}
+								{% endif %}
+								{% if socialProfile.name == "Facebook" and not hasFacebook %}
+									<span>
+										<i class="bi bi-facebook"></i>
+									</span>
+									{% set hasFacebook = true %}
+								{% endif %}
+							{% endfor %}
+
+						{% else %}
+							<small>
+								Aucun réseau
+							</small>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="col mb-5">
+				<div class="d-flex flex-row gap-2 mb-3">
+					<button type="button" id="buttonNotes" class="btn btn-dark rounded-pill" onclick="showBlock('blockNotes', 'buttonNotes')">
+						<i class="bi bi-instagram"></i>
+						Réseaux</button>
+					<button type="button" id="buttonComments" class="btn rounded-pill btn-outline-dark" onclick="showBlock('blockComments', 'buttonComments')">
+						<i class="bi bi-chat-text"></i>
+						Commentaires</button>
+					<button type="button" id="buttonComments" class="btn rounded-pill btn-outline-dark" onclick="showBlock('blockComments', 'buttonComments')">
+						<i class="bi bi-bookmark"></i>
+						Favories</button>
+				</div>
+				<div class="card p-4" id="cardContent">
+					<div id="blockNotes" class="bloc">
+						{% if app.user.socialProfiles is not empty%}
+							<h6>Mes réseaux :</h6>
+							<div class="row my-4">
+								<div class="col">
+									<span>
+										<a class="text-decoration-none text-dark text-color-gradient" target="_blank" href="https://www.instagram.com/aymane_afd/">
+											<i class="bi bi-instagram"></i>
+											Instagram</a>
+									</span>
+								</div>
+								<div class="col">
+									<span>
+										<a class="text-decoration-none text-dark text-color-gradient" href="#">
+											<i class="bi bi-linkedin"></i>
+											Ajouter</a>
+									</span>
+								</div>
+							</div>
+							<button type="button" class="btn btn-outline-dark rounded-pill">
+								<i class="bi bi-plus"></i>
+								Ajouter</button>
+							<button type="button" class="btn btn-outline-dark rounded-pill">
+								Modifier</button>
+						{% else %}
+							<h6>
+								Aucun réseau défini
+							</h6>
+							<button type="button" class="btn btn-dark rounded-pill">
+								Ajouter</button>
+						{% endif %}
+					</div>
+
+
+					<div id="blockComments" class="bloc" style="display:none;">
+						<div class="d-flex justify-content-between align-items-center mb-3">
+							<div class="heading d-flex align-items-center">
+								<h6>Les utilisateurs qui ont commenté vos réseaux
+								</h6>
+							</div>
+							<div class="d-flex flex-row gap-2">
+								<h6>
+									<i class="bi bi-chat-text"></i>
+									{{ app.user.reviews|length }}</h6>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/edit.js') }}"></script>
+{% endblock %}

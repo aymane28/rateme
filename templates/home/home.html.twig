@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rate Me
+{% endblock %}
+
+
+{% block body %}
+	<header class="py-5">
+		<div class="container">
+			<div class="row">
+				<div
+					class="col">
+					<!-- Header text content-->
+					<div class="text-center text-center justify-content-center">
+						<div class="badge rounded-pill border-button-gradient">
+							<div class="text-uppercase p-2 border-0 color-white button-gradient rounded-pill">Connectivité &middot; Évaluation &middot; Visibilité</div>
+						</div>
+						<div class="fs-3 fw-light my-5">Vous vous demandez ce que vos <strong>amis</strong> pensent vraiment de vos réseaux sociaux? Bienvenue sur la plateforme où <strong>l'honnêteté amicale</strong> règne. Créez un compte, partagez vos liens, et découvrez les <strong>commentaires</strong> de vos proches.</div>
+
+						<div class="text-center mb-5">
+							<img src="{{ asset('img/main_logo.png') }}" alt="" width="70" height="55">
+							<h2 class="display-4">
+								<span class="text-gradient d-inline">Rate Me</span>
+							</h2>
+						</div>
+						<a class="btn btn-dark btn-lg px-5 py-3 me-sm-3 fs-5 fw-bolder btn-mode rounded-pill" href="{{ path('profiles') }}">Découvrez nos profils</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+{% endblock %}
